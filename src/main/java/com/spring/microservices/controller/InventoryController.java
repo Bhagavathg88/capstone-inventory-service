@@ -25,12 +25,21 @@ public class InventoryController {
     }
 
     @GetMapping("/inventory/{id}")
-    public ResponseEntity<Inventory> retrieveInventory(@PathVariable Long id){
+    public ResponseEntity<List<Inventory>> retrieveInventory(@PathVariable Long id){
         return ResponseEntity.ok(inventoryService.retrieveInventory(id));
     }
 
-    @PostMapping("/inventory/{id}")
-    public ResponseEntity<Inventory> updateInventory(@RequestBody Inventory inventory, @PathVariable Long id){
-        return ResponseEntity.ok(inventoryService.updateInventory(inventory, id));
+    @GetMapping("/inventory/{id}/{zipCode}")
+    public ResponseEntity<List<Inventory>> retrieveInventoryByZipCode(@PathVariable Long id, @PathVariable Integer zipCode){
+        return ResponseEntity.ok(inventoryService.retrieveInventory(id, zipCode));
     }
+
+    @PostMapping("/inventory/{id}/{zipCode}")
+    public void updateInventory(@RequestBody Inventory inventory, @PathVariable Long id, @PathVariable Integer zipCode){
+
+        inventoryService.updateInventory(inventory, id, zipCode);
+
+    }
+
+
 }

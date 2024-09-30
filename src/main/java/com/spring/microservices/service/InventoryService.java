@@ -25,18 +25,30 @@ public class InventoryService {
         return inventoryRepository.findAll();
     }
 
-    public Inventory retrieveInventory(Long id){
+    public List<Inventory> retrieveInventory(Long id){
         return retrieveInventorybyProductId(id);
     }
 
-    public Inventory updateInventory(Inventory inventory, Long id){
-        Inventory availableInventory = retrieveInventorybyProductId(id);
-        availableInventory.setQuantity(null!=inventory.getQuantity()?availableInventory.getQuantity()-inventory.getQuantity(): availableInventory.getQuantity());
-        return inventoryRepository.save(availableInventory);
+    public List<Inventory> retrieveInventory(Long id, Integer zipCode){
+        return inventoryRepository.findByProductIdAndZipcode(id, zipCode);
     }
 
-    private Inventory retrieveInventorybyProductId(Long id) {
+    public Inventory retrieveInventor(Long id){
+        return inventoryRepository.findById(id).get();
+    }
+
+    private List<Inventory> retrieveInventorybyProductId(Long id) {
         return inventoryRepository.findByProductId(id);
     }
 
+    public void updateInventory(Inventory inventory, Long id, Integer zipCode) {
+
+
+        List<Inventory> inventories = inventoryRepository.findByProductIdAndZipcode(id, zipCode);
+        for(Inventory inv : inventories){
+            inv.setQuantity(inv.getQuantity()-inventory.getQuantity());
+            inventoryRepository.save(inv);
+        }
+
+    }
 }

@@ -1,4 +1,6 @@
 spring:
+  application:
+    name: inventoryService
   datasource:
     url: jdbc:postgresql://localhost:5432/inventoryDB
     username: postgres
@@ -15,3 +17,7 @@ spring:
     locations: classpath:db/migration
 server:
   port: 8092
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
